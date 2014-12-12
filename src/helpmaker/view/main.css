@@ -1,0 +1,45 @@
+/* http://www.coolwebmasters.com/iconss/89-60-free-useful-icon-sets-for-web-designers.html */
+
+.btnProperty {
+	-fx-background-position: center;
+	-fx-background-repeat: stretch;
+	-fx-background-size: 20px 20px;
+	-fx-pref-width: 30px;
+	-fx-pref-height: 30px;
+}
+
+.btnXMLTree {
+	-fx-background-position: center;
+	-fx-background-repeat: stretch;
+	-fx-background-size: 16px 16px;
+	-fx-pref-width: 30px;
+	-fx-pref-height: 30px;
+}
+
+.btnAdd {
+	-fx-background-image: url("../res/add.png");
+}
+
+.btnDel {
+	-fx-background-image: url("../res/remove.png");
+}
+
+.btnEdit {
+	-fx-background-image: url("../res/edit.png");
+}
+
+.btnSave {
+	-fx-background-image: url("../res/save.png");
+}
+
+.btnNewDoc {
+	-fx-background-image: url("../res/newdoc.png");
+}
+
+.btnRenameDoc {
+	-fx-background-image: url("../res/renamedoc.png");
+}
+
+.btnDeleteDoc {
+	-fx-background-image: url("../res/deletedoc.png");
+}

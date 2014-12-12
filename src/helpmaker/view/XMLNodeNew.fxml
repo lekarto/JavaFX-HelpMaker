@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="95.0" prefWidth="305.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="helpmaker.view.XMLNodeNewController">
+   <children>
+      <Label layoutX="15.0" layoutY="25.0" text="Caption" />
+      <TextField fx:id="tfCaption" layoutX="80.0" layoutY="21.0" prefHeight="25.0" prefWidth="210.0" />
+      <Button layoutX="153.0" layoutY="55.0" mnemonicParsing="false" onAction="#onOKClick" prefWidth="60.0" text="OK" />
+      <Button layoutX="231.0" layoutY="55.0" mnemonicParsing="false" onAction="#onCancelClick" prefWidth="60.0" text="Cancel" />
+   </children>
+</AnchorPane>

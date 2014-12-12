@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="helpmaker.view.XMLParameterEditController">
+   <children>
+      <Label layoutX="20.0" layoutY="18.0" text="Key" />
+      <Label layoutX="20.0" layoutY="64.0" text="Value" />
+      <TextField fx:id="keyField" layoutX="80.0" layoutY="14.0" prefHeight="25.0" prefWidth="180.0">
+         <contextMenu>
+            <ContextMenu>
+              <items>
+                <MenuItem mnemonicParsing="false" text="Test 1" />
+                  <MenuItem mnemonicParsing="false" text="Test 2" />
+              </items>
+            </ContextMenu>
+         </contextMenu></TextField>
+      <TextField fx:id="valueField" layoutX="80.0" layoutY="60.0" prefHeight="25.0" prefWidth="180.0" />
+      <Button layoutX="148.0" layoutY="100.0" mnemonicParsing="false" onAction="#btnOKClick" prefHeight="25.0" prefWidth="52.0" text="OK" />
+      <Button layoutX="214.0" layoutY="100.0" mnemonicParsing="false" onAction="#btnCancelClick" text="Cancel" />
+   </children>
+</AnchorPane>
