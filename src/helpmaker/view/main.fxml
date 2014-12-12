@@ -65,9 +65,21 @@
                                  <contextMenu>
                                     <ContextMenu>
                                       <items>
-                                        <MenuItem mnemonicParsing="false" onAction="#onNewDocumentClick" text="Add new document" />
-                                          <MenuItem mnemonicParsing="false" text="Edit document caption" />
-                                          <MenuItem mnemonicParsing="false" onMenuValidation="#onDeleteDocumentClick" text="Delete document" />
+                                        <MenuItem mnemonicParsing="false" onAction="#onNewDocumentClick" text="     Add new document">
+                                             <styleClass>
+                                                <String fx:value="btnNewDoc" />
+                                                <String fx:value="contextTreeItem" />
+                                             </styleClass></MenuItem>
+                                          <MenuItem mnemonicParsing="false" text="     Edit document caption">
+                                             <styleClass>
+                                                <String fx:value="contextTreeItem" />
+                                                <String fx:value="btnRenameDoc" />
+                                             </styleClass></MenuItem>
+                                          <MenuItem mnemonicParsing="false" onMenuValidation="#onDeleteDocumentClick" text="     Delete document">
+                                             <styleClass>
+                                                <String fx:value="contextTreeItem" />
+                                                <String fx:value="btnDeleteDoc" />
+                                             </styleClass></MenuItem>
                                       </items>
                                     </ContextMenu>
                                  </contextMenu></TreeView>
@@ -115,9 +127,21 @@
                                  <contextMenu>
                                     <ContextMenu>
                                       <items>
-                                        <MenuItem mnemonicParsing="false" onAction="#onAddXMLParameterClick" text="Add item" />
-                                          <MenuItem mnemonicParsing="false" onAction="#onEditXMLParameterClick" text="Edit item" />
-                                          <MenuItem mnemonicParsing="false" onAction="#onDeleteXMLParameterClick" text="Delete item" />
+                                        <MenuItem mnemonicParsing="false" onAction="#onAddXMLParameterClick" text="     Add parameter">
+                                             <styleClass>
+                                                <String fx:value="contextParameterItem" />
+                                                <String fx:value="btnAdd" />
+                                             </styleClass></MenuItem>
+                                          <MenuItem mnemonicParsing="false" onAction="#onEditXMLParameterClick" text="     Edit parameter">
+                                             <styleClass>
+                                                <String fx:value="contextParameterItem" />
+                                                <String fx:value="btnEdit" />
+                                             </styleClass></MenuItem>
+                                          <MenuItem mnemonicParsing="false" onAction="#onDeleteXMLParameterClick" text="     Delete parameter">
+                                             <styleClass>
+                                                <String fx:value="contextParameterItem" />
+                                                <String fx:value="btnDel" />
+                                             </styleClass></MenuItem>
                                       </items>
                                     </ContextMenu>
                                  </contextMenu>
