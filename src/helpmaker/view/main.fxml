@@ -61,7 +61,16 @@
                                     </Button>
                                  </children>
                               </HBox>
-                              <TreeView fx:id="XMLTreeView" onMouseClicked="#onTreeViewClick" prefHeight="473.0" prefWidth="175.0" />
+                              <TreeView fx:id="XMLTreeView" onMouseClicked="#onTreeViewClick" prefHeight="473.0" prefWidth="175.0">
+                                 <contextMenu>
+                                    <ContextMenu>
+                                      <items>
+                                        <MenuItem mnemonicParsing="false" onAction="#onNewDocumentClick" text="Add new document" />
+                                          <MenuItem mnemonicParsing="false" text="Edit document caption" />
+                                          <MenuItem mnemonicParsing="false" onMenuValidation="#onDeleteDocumentClick" text="Delete document" />
+                                      </items>
+                                    </ContextMenu>
+                                 </contextMenu></TreeView>
                            </children>
                         </VBox>
                      </children>
