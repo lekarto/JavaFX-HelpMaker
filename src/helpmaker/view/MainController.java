@@ -11,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.HTMLEditor;
 import javafx.util.Callback;
 
@@ -28,12 +29,16 @@ public class MainController {
     private TableColumn<XMLParameter, String> valueColumn;
     @FXML
     private HTMLEditor htmlEditor;
+    @FXML
+    private AnchorPane rightPane;
 
     private ObservableList<XMLParameter> parameters = FXCollections.observableArrayList();
     private XMLNodeItemExtended currentSelectedXMLNodeItemExtended;
     private HelpXMLTree XMLTreeModel;
     private Main mainApp;
     private boolean isHTMLPageChanged;
+
+    private static final String HTMLstyle = "<style>p{margin-top:3px;margin-bottom:3px;}</style>";
 
     public MainController() { }
 
@@ -55,16 +60,14 @@ public class MainController {
         this.mainApp = mainApp;
     }
 
-    public void btnSaveOnClick() {
+    public void btnSaveTreeClick() {
         XMLTreeModel.saveTree();
     }
 
     public void onTreeViewClick() {
         XMLNodeItemExtended justSelectedNode = ((TreeItem<XMLNodeItemExtended>) XMLTreeView.getFocusModel().getFocusedItem()).getValue();
         if ((justSelectedNode != null) && (currentSelectedXMLNodeItemExtended != justSelectedNode)) {
-            if (currentSelectedXMLNodeItemExtended != null)
-                saveHTMLPageToFile(currentSelectedXMLNodeItemExtended.getParameterValueByKey(XMLParameter.PARAMETER_ID));
-            isHTMLPageChanged = false;
+            saveHTMLFile();
             currentSelectedXMLNodeItemExtended = justSelectedNode;
             parameters.remove(0, parameters.size());
             parameters = FXCollections.observableArrayList(currentSelectedXMLNodeItemExtended.getParameters());
@@ -124,12 +127,23 @@ public class MainController {
         htmlEditor.setHtmlText(text);
     }
 
+    public void saveHTMLFile() {
+        if (currentSelectedXMLNodeItemExtended != null)
+            saveHTMLPageToFile(currentSelectedXMLNodeItemExtended.getParameterValueByKey(XMLParameter.PARAMETER_ID));
+        isHTMLPageChanged = false;
+    }
     private void saveHTMLPageToFile(String fileName) {
         if ((isHTMLPageChanged) && (!fileName.equals(""))) {
+            String resultHTML;
+            if (htmlEditor.getHtmlText().contains(HTMLstyle))
+                resultHTML = htmlEditor.getHtmlText();
+            else
+                resultHTML = htmlEditor.getHtmlText().replace("<head>", "<head>"+HTMLstyle);
+            resultHTML = resultHTML.replace("contenteditable=\"true\"", "");
             try {
                 BufferedWriter outBuffer = new BufferedWriter(new FileWriter(
                         new File("Help/" + fileName + ".htm")));
-                outBuffer.write(htmlEditor.getHtmlText());
+                outBuffer.write(resultHTML);
                 outBuffer.flush();
                 outBuffer.close();
                 isHTMLPageChanged = false;
