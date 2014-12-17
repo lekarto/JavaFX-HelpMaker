@@ -37,9 +37,7 @@ public class MainController {
     private XMLNodeItemExtended currentSelectedXMLNodeItemExtended;
     private HelpXMLTree XMLTreeModel;
     private Main mainApp;
-//    private boolean isHTMLPageChanged;
 
-    private static final String HTMLStyle = "<style>p{margin-top:3px;margin-bottom:3px;}</style>";
 
     public MainController() { }
 
@@ -51,6 +49,7 @@ public class MainController {
         htmlEditor.setBtnSaveSetOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                htmlEditor.setPageChanged(true);
                 saveHTMLFile();
             }
         });
@@ -137,29 +136,9 @@ public class MainController {
 
     public void saveHTMLFile() {
         if (currentSelectedXMLNodeItemExtended != null)
-            saveHTMLPageToFile(currentSelectedXMLNodeItemExtended.getParameterValueByKey(XMLParameter.PARAMETER_ID));
-        htmlEditor.setPageChanged(false);
-    }
-
-    private void saveHTMLPageToFile(String fileName) {
-        if ((htmlEditor.pageChanged()) && (!fileName.equals(""))) {
-            String resultHTML;
-            if (htmlEditor.getHtmlText().contains(HTMLStyle))
-                resultHTML = htmlEditor.getHtmlText();
-            else
-                resultHTML = htmlEditor.getHtmlText().replace("<head>", "<head>"+ HTMLStyle);
-            resultHTML = resultHTML.replace("contenteditable=\"true\"", "");
-            try {
-                BufferedWriter outBuffer = new BufferedWriter(new FileWriter(
-                        new File("Help/" + fileName + ".htm")));
-                outBuffer.write(resultHTML);
-                outBuffer.flush();
-                outBuffer.close();
-                htmlEditor.setPageChanged(false);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+            htmlEditor.saveHTMLPageToFile(
+                    "Help/" +
+                    currentSelectedXMLNodeItemExtended.getParameterValueByKey(XMLParameter.PARAMETER_ID) + ".htm");
     }
 
     public void onNewDocumentClick() {

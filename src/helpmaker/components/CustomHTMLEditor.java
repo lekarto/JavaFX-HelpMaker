@@ -10,10 +10,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.web.HTMLEditor;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public final class CustomHTMLEditor extends HTMLEditor {
     private Button btnAddLink;
     private Button btnSave;
     private boolean pageChanged;
+
+    private static final String HTMLStyle = "<style>p{margin-top:3px;margin-bottom:3px;}</style>";
 
     public CustomHTMLEditor() {
         addSaveButton();
@@ -55,8 +62,6 @@ public final class CustomHTMLEditor extends HTMLEditor {
         btnAddLink.setOnAction(eventHandler);
     }
 
-
-
     public boolean pageChanged() {
         return pageChanged;
     }
@@ -64,4 +69,26 @@ public final class CustomHTMLEditor extends HTMLEditor {
     public void setPageChanged(boolean state) {
         pageChanged = state;
     }
+
+    public void saveHTMLPageToFile(String fileName) {
+        if ((pageChanged()) && (!fileName.equals(""))) {
+            String resultHTML;
+            if (getHtmlText().contains(HTMLStyle))
+                resultHTML = this.getHtmlText();
+            else
+                resultHTML = getHtmlText().replace("<head>", "<head>"+ HTMLStyle);
+            resultHTML = resultHTML.replace("contenteditable=\"true\"", "");
+            try {
+                BufferedWriter outBuffer = new BufferedWriter(new FileWriter(new File(fileName)));
+                outBuffer.write(resultHTML);
+                outBuffer.flush();
+                outBuffer.close();
+                setPageChanged(false);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        setPageChanged(false);
+    }
+
 }
