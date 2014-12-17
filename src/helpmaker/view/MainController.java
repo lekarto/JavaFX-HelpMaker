@@ -2,6 +2,7 @@ package helpmaker.view;
 
 import helpmaker.Main;
 import helpmaker.additional.XMLParameterEditDetails;
+import helpmaker.components.CustomHTMLEditor;
 import helpmaker.model.HelpXMLTree;
 import helpmaker.model.TextFieldTreeCellImpl;
 import helpmaker.model.XMLNodeItemExtended;
@@ -9,10 +10,11 @@ import helpmaker.model.XMLParameter;
 import helpmaker.util.IDGenerator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.web.HTMLEditor;
 import javafx.util.Callback;
 
 import java.io.*;
@@ -28,21 +30,31 @@ public class MainController {
     @FXML
     private TableColumn<XMLParameter, String> valueColumn;
     @FXML
-    private HTMLEditor htmlEditor;
-    @FXML
     private AnchorPane rightPane;
+    private CustomHTMLEditor htmlEditor;
 
     private ObservableList<XMLParameter> parameters = FXCollections.observableArrayList();
     private XMLNodeItemExtended currentSelectedXMLNodeItemExtended;
     private HelpXMLTree XMLTreeModel;
     private Main mainApp;
-    private boolean isHTMLPageChanged;
+//    private boolean isHTMLPageChanged;
 
-    private static final String HTMLstyle = "<style>p{margin-top:3px;margin-bottom:3px;}</style>";
+    private static final String HTMLStyle = "<style>p{margin-top:3px;margin-bottom:3px;}</style>";
 
     public MainController() { }
 
     public void initialize() {
+        rightPane.getChildren().remove(0, rightPane.getChildren().size());
+
+        htmlEditor = new CustomHTMLEditor();
+        rightPane.getChildren().add(htmlEditor);
+        htmlEditor.setBtnSaveSetOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                saveHTMLFile();
+            }
+        });
+
         XMLTreeModel = new HelpXMLTree("Help/help.xml");
         XMLTreeView.setRoot(XMLTreeModel.getRootTreeItem());
         XMLTreeView.setEditable(true);
@@ -74,10 +86,6 @@ public class MainController {
             XMLNodeParameters.setItems(parameters);
             readFileToHTMLEditor(currentSelectedXMLNodeItemExtended.getParameterValueByKey(XMLParameter.PARAMETER_ID));
         }
-    }
-
-    public void onHTMLPageChange() {
-        isHTMLPageChanged = true;
     }
 
     public void onAddXMLParameterClick() {
@@ -130,15 +138,16 @@ public class MainController {
     public void saveHTMLFile() {
         if (currentSelectedXMLNodeItemExtended != null)
             saveHTMLPageToFile(currentSelectedXMLNodeItemExtended.getParameterValueByKey(XMLParameter.PARAMETER_ID));
-        isHTMLPageChanged = false;
+        htmlEditor.setPageChanged(false);
     }
+
     private void saveHTMLPageToFile(String fileName) {
-        if ((isHTMLPageChanged) && (!fileName.equals(""))) {
+        if ((htmlEditor.pageChanged()) && (!fileName.equals(""))) {
             String resultHTML;
-            if (htmlEditor.getHtmlText().contains(HTMLstyle))
+            if (htmlEditor.getHtmlText().contains(HTMLStyle))
                 resultHTML = htmlEditor.getHtmlText();
             else
-                resultHTML = htmlEditor.getHtmlText().replace("<head>", "<head>"+HTMLstyle);
+                resultHTML = htmlEditor.getHtmlText().replace("<head>", "<head>"+ HTMLStyle);
             resultHTML = resultHTML.replace("contenteditable=\"true\"", "");
             try {
                 BufferedWriter outBuffer = new BufferedWriter(new FileWriter(
@@ -146,7 +155,7 @@ public class MainController {
                 outBuffer.write(resultHTML);
                 outBuffer.flush();
                 outBuffer.close();
-                isHTMLPageChanged = false;
+                htmlEditor.setPageChanged(false);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -156,7 +165,7 @@ public class MainController {
     public void onNewDocumentClick() {
         TreeItem<XMLNodeItemExtended> selectedTreeItem = (TreeItem<XMLNodeItemExtended>) XMLTreeView.getFocusModel().getFocusedItem();
         if (selectedTreeItem != null)  {
-            String newTreeItemCaption = mainApp.showXMLNodeNewDIalog();
+            String newTreeItemCaption = mainApp.showXMLNodeNewDialog();
             if ((!newTreeItemCaption.equals("")) &&
                 (!HelpXMLTree.isTreeItemHasChildWithCaption(selectedTreeItem, newTreeItemCaption))) {
                 TreeItem<XMLNodeItemExtended> newTreeItem =

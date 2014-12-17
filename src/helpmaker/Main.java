@@ -74,7 +74,7 @@ public class Main extends Application {
         }
     }
 
-    public String showXMLNodeNewDIalog() {
+    public String showXMLNodeNewDialog() {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("view/XMLNodeNew.fxml"));
