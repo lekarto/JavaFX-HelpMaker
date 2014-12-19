@@ -7,6 +7,7 @@ import javafx.scene.control.TreeItem;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class XMLTreeSave {
     public static void saveTreeToFile(TreeItem<XMLNodeItemExtended> rootItem, String fileName) {
@@ -36,7 +37,7 @@ public class XMLTreeSave {
     }
 
     private static void writeCurrentParameters(BufferedWriter writer, TreeItem<XMLNodeItemExtended> node) throws IOException {
-        ArrayList<XMLParameter> parameters = node.getValue().getParameters();
+        List<XMLParameter> parameters = node.getValue().getParameters();
         writer.write(" "+XMLParameter.PARAMETER_CAPTION+"=\""+node.getValue().getCaption()+"\"");
         for (XMLParameter param : parameters) {
             writer.write(" "+param.getKey()+"=\""+param.getValue()+"\"");

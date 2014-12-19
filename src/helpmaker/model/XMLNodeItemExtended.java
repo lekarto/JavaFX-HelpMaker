@@ -1,10 +1,12 @@
 package helpmaker.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class XMLNodeItemExtended {
     private String caption;
-    private ArrayList<XMLParameter> parameters;
+    private List<XMLParameter> parameters;
     private String nodeName;
 
     public int isParameterExist(String key) {
@@ -76,9 +78,11 @@ public class XMLNodeItemExtended {
         updateParameter(XMLParameter.PARAMETER_CAPTION, caption);
     }
 
-    public ArrayList<XMLParameter> getParameters() {
-        return parameters;
+    public List<XMLParameter> getParameters() {
+        return Collections.unmodifiableList(parameters);
     }
+
+
 
     public String getParameterValueByKey(String key) {
         int index = isParameterExist(key);
