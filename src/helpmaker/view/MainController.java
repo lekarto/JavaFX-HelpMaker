@@ -17,7 +17,6 @@ import javafx.util.Callback;
 import java.io.*;
 
 public class MainController {
-
     @FXML
     private TreeView XMLTreeView;
     @FXML
@@ -35,7 +34,6 @@ public class MainController {
     private HelpXMLTree XMLTreeModel;
     private Main mainApp;
 
-
     public MainController() { }
 
     public void initialize() {
@@ -43,6 +41,22 @@ public class MainController {
 
         htmlEditor = new CustomHTMLEditor();
         rightPane.getChildren().add(htmlEditor);
+
+        XMLTreeModel = new HelpXMLTree("Help/help.xml");
+        XMLTreeView.setRoot(XMLTreeModel.getRootTreeItem());
+        XMLTreeView.setEditable(true);
+        XMLTreeView.setCellFactory(new Callback<TreeView, TreeCell>() {
+            @Override
+            public TreeCell call(TreeView param) {
+                return new TextFieldTreeCellImpl();
+            }
+        });
+        keyColumn.setCellValueFactory(cellData -> cellData.getValue().getKeyProperty());
+        valueColumn.setCellValueFactory(cellData -> cellData.getValue().getValueProperty());
+    }
+
+    public void initializeAfterShow() {
+        htmlEditor.initializeNewFunctionality();
         htmlEditor.setBtnSaveSetOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -59,18 +73,6 @@ public class MainController {
                     htmlEditor.insertLink(link.getLink(), link.getCaption());
             }
         });
-
-        XMLTreeModel = new HelpXMLTree("Help/help.xml");
-        XMLTreeView.setRoot(XMLTreeModel.getRootTreeItem());
-        XMLTreeView.setEditable(true);
-        XMLTreeView.setCellFactory(new Callback<TreeView, TreeCell>() {
-            @Override
-            public TreeCell call(TreeView param) {
-                return new TextFieldTreeCellImpl();
-            }
-        });
-        keyColumn.setCellValueFactory(cellData -> cellData.getValue().getKeyProperty());
-        valueColumn.setCellValueFactory(cellData -> cellData.getValue().getValueProperty());
     }
 
     public void setMainApp(Main mainApp) {

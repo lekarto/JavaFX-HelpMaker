@@ -45,6 +45,7 @@ public class Main extends Application {
                 controller.saveHTMLFile();
             });
             primaryStage.show();
+            controller.initializeAfterShow();
         } catch (IOException e) {
             e.printStackTrace();
         }

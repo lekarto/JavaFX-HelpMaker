@@ -24,7 +24,7 @@ public final class CustomHTMLEditor extends HTMLEditor {
     private WebView webView;
 
     private static final String JS_GET_SELECTED_TEXT =
-            "(function getSelectionText() {\n" +
+                    "(function getSelectionText() {\n" +
                     "    var text = \"\";\n" +
                     "    if (window.getSelection) {\n" +
                     "        text = window.getSelection().toString();\n" +
@@ -46,8 +46,6 @@ public final class CustomHTMLEditor extends HTMLEditor {
     private static final String HTMLStyle = "<style>p{margin-top:3px;margin-bottom:3px;}</style>";
 
     public CustomHTMLEditor() {
-        addSaveButton();
-        addLinkButton();
         pageChanged = false;
         webView = (WebView) this.lookup("WebView");
         this.setOnKeyTyped(new EventHandler<KeyEvent>() {
@@ -56,6 +54,11 @@ public final class CustomHTMLEditor extends HTMLEditor {
                 pageChanged = true;
             }
         });
+    }
+
+    public void initializeNewFunctionality() {
+        addSaveButton();
+        addLinkButton();
     }
 
     private void addLinkButton() {
@@ -67,15 +70,22 @@ public final class CustomHTMLEditor extends HTMLEditor {
     private void addSaveButton() {
         ImageView graphic = new ImageView(new Image("helpmaker/res/save.png", 16, 16, true, true));
         btnSave = new Button("", graphic);
-        addNodeToTopToolbar(btnSave);
+        addNodeToTopToolbar(true, btnSave);
     }
 
-    private void addNodeToTopToolbar(Node newNode) {
+    private void addNodeToTopToolbar(boolean asFirst, Node newNode) {
         Node node = this.lookup(".top-toolbar");
         if (node instanceof ToolBar) {
             ToolBar bar = (ToolBar) node;
-            bar.getItems().add(newNode);
+            if (asFirst)
+                bar.getItems().add(0, newNode);
+            else
+                bar.getItems().add(newNode);
         }
+    }
+
+    private void addNodeToTopToolbar(Node newNode) {
+        addNodeToTopToolbar(false, newNode);
     }
 
     public void setBtnSaveSetOnAction(EventHandler<ActionEvent> eventHandler) {
@@ -125,5 +135,4 @@ public final class CustomHTMLEditor extends HTMLEditor {
         WebEngine engine = webView.getEngine();
         engine.executeScript(JS_CREATE_LINK+"('"+link+"','"+caption+"')");
     }
-
 }
