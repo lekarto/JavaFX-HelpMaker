@@ -54,6 +54,13 @@ public class MainController {
             }
         });
 
+        htmlEditor.setBtnAddLinkSetOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                htmlEditor.insertLink("1.html", "linkName");
+            }
+        });
+
         XMLTreeModel = new HelpXMLTree("Help/help.xml");
         XMLTreeView.setRoot(XMLTreeModel.getRootTreeItem());
         XMLTreeView.setEditable(true);

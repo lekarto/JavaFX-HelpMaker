@@ -9,6 +9,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.web.HTMLEditor;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -19,6 +21,27 @@ public final class CustomHTMLEditor extends HTMLEditor {
     private Button btnAddLink;
     private Button btnSave;
     private boolean pageChanged;
+    private WebView webView;
+
+    private static final String JS_GET_SELECTED_TEXT =
+            "(function getSelectionText() {\n" +
+                    "    var text = \"\";\n" +
+                    "    if (window.getSelection) {\n" +
+                    "        text = window.getSelection().toString();\n" +
+                    "    } else if (document.selection && document.selection.type != \"Control\") {\n" +
+                    "        text = document.selection.createRange().text;\n" +
+                    "    }\n" +
+                    "    return text;\n" +
+                    "})()";
+    private static final String JS_CREATE_LINK =
+                    "(function createLink(link, caption) {\n" +
+                    "        var selRange = window.getSelection().getRangeAt(0);\n" +
+                    "        var span = document.createElement('span');\n" +
+                    "        span.innerHTML = '<a href=\\'' + link + '\\'>' + caption + '</a>';\n" +
+                    "        selRange.deleteContents();\n" +
+                    "        selRange.insertNode(span);\n" +
+
+                    "})";
 
     private static final String HTMLStyle = "<style>p{margin-top:3px;margin-bottom:3px;}</style>";
 
@@ -26,6 +49,7 @@ public final class CustomHTMLEditor extends HTMLEditor {
         addSaveButton();
         addLinkButton();
         pageChanged = false;
+        webView = (WebView) this.lookup("WebView");
         this.setOnKeyTyped(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -89,6 +113,17 @@ public final class CustomHTMLEditor extends HTMLEditor {
             }
         }
         setPageChanged(false);
+    }
+
+    public String getSelectedText() {
+        if (webView == null) return "";
+        return (String)webView.getEngine().executeScript(JS_GET_SELECTED_TEXT);
+    }
+
+    public void insertLink(String link, String caption) {
+        if (webView == null) return;
+        WebEngine engine = webView.getEngine();
+        engine.executeScript(JS_CREATE_LINK+"('"+link+"','"+caption+"')");
     }
 
 }

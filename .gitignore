@@ -16,3 +16,5 @@ hs_err_pid*
 out/
 lib/
 Help1*/
+
+*.xml
