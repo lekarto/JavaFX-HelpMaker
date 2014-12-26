@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="120.0" prefWidth="305.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="helpmaker.view.InsertLinkController">
+   <children>
+      <Text layoutX="27.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Link" />
+      <Text layoutX="27.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Caption" />
+      <TextField fx:id="tfLink" layoutX="98.0" layoutY="19.0" prefHeight="25.0" prefWidth="180.0" />
+      <TextField fx:id="tfCaption" layoutX="98.0" layoutY="51.0" prefHeight="25.0" prefWidth="180.0" />
+      <Button fx:id="btnOK" layoutX="153.0" layoutY="81.0" maxHeight="25.0" maxWidth="55.0" minHeight="25.0" minWidth="55.0" mnemonicParsing="false" onAction="#onOKClick" prefHeight="25.0" prefWidth="55.0" text="OK" />
+      <Button fx:id="btnCancel" layoutX="223.0" layoutY="81.0" maxHeight="25.0" maxWidth="55.0" minHeight="25.0" minWidth="55.0" mnemonicParsing="false" onAction="#onCancelClick" prefHeight="25.0" prefWidth="55.0" text="Cancel" />
+   </children>
+</AnchorPane>

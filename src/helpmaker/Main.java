@@ -1,6 +1,8 @@
 package helpmaker;
 
+import helpmaker.model.Link;
 import helpmaker.model.XMLParameter;
+import helpmaker.view.InsertLinkController;
 import helpmaker.view.MainController;
 import helpmaker.view.XMLNodeNewController;
 import helpmaker.view.XMLParameterEditController;
@@ -94,6 +96,31 @@ public class Main extends Application {
         } catch (IOException e) {
             e.printStackTrace();
             return "";
+        }
+    }
+
+    public Link showInsertLinkDialog(String caption) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("view/InsertLink.fxml"));
+            AnchorPane panel = loader.load();
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Insert Link");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            dialogStage.setResizable(false);
+            Scene scene = new Scene(panel);
+            dialogStage.setScene(scene);
+            Link link = new Link(caption);
+            InsertLinkController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setLink(link);
+            dialogStage.showAndWait();
+            return controller.getLink();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 

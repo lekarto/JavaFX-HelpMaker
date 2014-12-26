@@ -3,10 +3,7 @@ package helpmaker.view;
 import helpmaker.Main;
 import helpmaker.additional.XMLParameterEditDetails;
 import helpmaker.components.CustomHTMLEditor;
-import helpmaker.model.HelpXMLTree;
-import helpmaker.model.TextFieldTreeCellImpl;
-import helpmaker.model.XMLNodeItemExtended;
-import helpmaker.model.XMLParameter;
+import helpmaker.model.*;
 import helpmaker.util.IDGenerator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -57,7 +54,9 @@ public class MainController {
         htmlEditor.setBtnAddLinkSetOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                htmlEditor.insertLink("1.html", "linkName");
+                Link link = mainApp.showInsertLinkDialog(htmlEditor.getSelectedText());
+                if ((link != null) && (link.linkValid()))
+                    htmlEditor.insertLink(link.getLink(), link.getCaption());
             }
         });
 
